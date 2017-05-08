@@ -15,9 +15,9 @@ class FriendshipsServiceProvider extends ServiceProvider
     {
 
 
-        // $this->publishes([
-        //         __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
-        //     ], 'migrations');
+        $this->publishes([
+                __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
+            ], 'migrations');
 
         $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
