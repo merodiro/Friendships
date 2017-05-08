@@ -13,11 +13,14 @@ class FriendshipsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $stub      = __DIR__ . '/migrations/';
-        $target    = database_path('migrations') . '/';
-        $this->publishes([
-            $stub . 'create_friendships_table.php'        => $target . date('Y_m_d_His', time()) . '_create_friendships_table.php',
-        ], 'migrations');
+        // $stub      = __DIR__ . '/migrations/';
+        // $target    = database_path('migrations') . '/';
+
+        // $this->publishes([
+        //     $stub . 'create_friendships_table.php'        => $target . date('Y_m_d_His', time()) . '_create_friendships_table.php',
+        // ], 'migrations');
+
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
     /**
