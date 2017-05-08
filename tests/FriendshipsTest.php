@@ -3,9 +3,8 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
 
-class FriendshipTest extends TestCase
+class FriendshipsTest extends TestCase
 {
     use DatabaseMigrations;
 
