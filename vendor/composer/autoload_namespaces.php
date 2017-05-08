@@ -5,18 +5,18 @@
 $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
-return array(
-    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
-    'Parsedown' => array($vendorDir . '/erusev/parsedown'),
-    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
-    'JakubOnderka\\PhpConsoleHighlighter' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),
-    'JakubOnderka\\PhpConsoleColor' => array($vendorDir . '/jakub-onderka/php-console-color/src'),
-    'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
-    'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
-    'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
-    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
-    'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
-    'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
-    'CodeClimate\\Component' => array($vendorDir . '/codeclimate/php-test-reporter/src'),
-    'CodeClimate\\Bundle' => array($vendorDir . '/codeclimate/php-test-reporter/src'),
-);
+return [
+    'Prophecy\\'                          => [$vendorDir.'/phpspec/prophecy/src'],
+    'Parsedown'                           => [$vendorDir.'/erusev/parsedown'],
+    'Mockery'                             => [$vendorDir.'/mockery/mockery/library'],
+    'JakubOnderka\\PhpConsoleHighlighter' => [$vendorDir.'/jakub-onderka/php-console-highlighter/src'],
+    'JakubOnderka\\PhpConsoleColor'       => [$vendorDir.'/jakub-onderka/php-console-color/src'],
+    'Guzzle\\Tests'                       => [$vendorDir.'/guzzle/guzzle/tests'],
+    'Guzzle'                              => [$vendorDir.'/guzzle/guzzle/src'],
+    'Doctrine\\DBAL\\'                    => [$vendorDir.'/doctrine/dbal/lib'],
+    'Doctrine\\Common\\Lexer\\'           => [$vendorDir.'/doctrine/lexer/lib'],
+    'Doctrine\\Common\\Inflector\\'       => [$vendorDir.'/doctrine/inflector/lib'],
+    'Doctrine\\Common\\Collections\\'     => [$vendorDir.'/doctrine/collections/lib'],
+    'CodeClimate\\Component'              => [$vendorDir.'/codeclimate/php-test-reporter/src'],
+    'CodeClimate\\Bundle'                 => [$vendorDir.'/codeclimate/php-test-reporter/src'],
+];
