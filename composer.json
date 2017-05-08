@@ -1,0 +1,13 @@
+{
+    "name": "merodiro/friendships",
+    "description": "A simple package for friendships",
+    "license": "MIT",
+    "keywords": ["laravel", "friendships", "friend-system", "friends", "eloquent"],
+    "authors": [
+        {
+            "name": "Amr",
+            "email": "merodiro@gmail.com"
+        }
+    ],
+    "require": {}
+}
