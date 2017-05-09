@@ -11,7 +11,6 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($recipient);
 
         if ($friendshipStatus == 'not friends') {
-
             Event::fire('friendrequest.sent', [$this, $recipient]);
 
             return Friendship::create([
@@ -60,6 +59,7 @@ trait Friendable
     public function deleteFriend($user)
     {
         Event::fire('friendship.deleted', [$this, $user]);
+
         return Friendship::betweenModels($this, $user)
             ->delete();
     }
