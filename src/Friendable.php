@@ -2,16 +2,21 @@
 
 namespace Merodiro\Friendships;
 
+use Event;
+
 trait Friendable
 {
-    public function addFriend($user)
+    public function addFriend($recipient)
     {
-        $friendshipStatus = $this->checkFriendship($user);
+        $friendshipStatus = $this->checkFriendship($recipient);
 
         if ($friendshipStatus == 'not friends') {
+
+            Event::fire('friendrequest.sent', [$this, $recipient]);
+
             return Friendship::create([
                 'requester'      => $this->id,
-                'user_requested' => $user->id,
+                'user_requested' => $recipient->id,
             ]);
         }
 
@@ -38,12 +43,14 @@ trait Friendable
         }
     }
 
-    public function acceptFriend($user)
+    public function acceptFriend($sender)
     {
-        $friendshipStatus = $this->checkFriendship($user);
+        $friendshipStatus = $this->checkFriendship($sender);
 
         if ($friendshipStatus == 'pending') {
-            return $friendship = Friendship::betweenModels($this, $user)
+            Event::fire('friendrequest.accepted', [$this, $sender]);
+
+            return $friendship = Friendship::betweenModels($this, $sender)
                 ->update([
                         'status' => 1,
                     ]);
@@ -52,10 +59,9 @@ trait Friendable
 
     public function deleteFriend($user)
     {
-        Friendship::betweenModels($this, $user)
+        Event::fire('friendship.deleted', [$this, $user]);
+        return Friendship::betweenModels($this, $user)
             ->delete();
-
-        return 1;
     }
 
     public function friends()

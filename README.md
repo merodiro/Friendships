@@ -104,3 +104,13 @@ $user->friendRequestFrom();
 ```php
 $user->friendRequestTo();
 ```
+
+## Events
+This is the list of the events fired by default for each action
+
+|Event name            |Fired                            |
+|----------------------|---------------------------------|
+|friendrequest.sent    |When a friend request is sent    |
+|friendrequest.accepted|When a friend request is accepted|
+|friendship.deleted    |When a friend request is denied  |
+|friendship.deleted    |When a friendship is cancelled   |
