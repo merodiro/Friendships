@@ -9,7 +9,7 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($user);
 
         if ($friendshipStatus == 'not friends') {
-            return $friendship = Friendship::create([
+            return Friendship::create([
                 'requester'      => $this->id,
                 'user_requested' => $user->id,
             ]);

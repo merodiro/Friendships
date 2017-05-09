@@ -21,7 +21,8 @@
         "phpunit/phpunit" : "5.*",
         "fzaninotto/faker": "~1.4",
         "laravel/laravel": "5.*",
-        "mockery/mockery": "^0.9.5"
+        "mockery/mockery": "^0.9.5",
+        "codeclimate/php-test-reporter": "^0.4.4"
     },
     "autoload-dev": {
         "psr-4": {
