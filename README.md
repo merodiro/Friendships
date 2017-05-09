@@ -97,12 +97,12 @@ $user->friends();
 
 #### Get a list of users who sent friend request to `$user`
 ```php
-$user->friendRequestFrom();
+$user->friendRequestsTo();
 ```
 
 #### Get a list of users who have friend requests from `$user`
 ```php
-$user->friendRequestTo();
+$user->friendRequestsFrom();
 ```
 
 ## Events

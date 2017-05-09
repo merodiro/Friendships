@@ -6,20 +6,6 @@ use Event;
 
 trait Friendable
 {
-    public function addFriend($recipient)
-    {
-        $friendshipStatus = $this->checkFriendship($recipient);
-
-        if ($friendshipStatus == 'not friends') {
-            Event::fire('friendrequest.sent', [$this, $recipient]);
-
-            return Friendship::create([
-                'requester'      => $this->id,
-                'user_requested' => $recipient->id,
-            ]);
-        }
-    }
-
     public function checkFriendship($user)
     {
         if ($this->id == $user->id) {
@@ -41,6 +27,20 @@ trait Friendable
         }
         if ($friendship->user_requested == $this->id) {
             return 'pending';
+        }
+    }
+
+    public function addFriend($recipient)
+    {
+        $friendshipStatus = $this->checkFriendship($recipient);
+
+        if ($friendshipStatus == 'not friends') {
+            Event::fire('friendrequest.sent', [$this, $recipient]);
+
+            return Friendship::create([
+                'requester'      => $this->id,
+                'user_requested' => $recipient->id,
+            ]);
         }
     }
 
@@ -69,12 +69,13 @@ trait Friendable
     {
         $recipients = Friendship::whereSender($this)
             ->accepted(1)
-            ->pluck('user_requested')
-            ->all();
+            ->get(['user_requested'])
+            ->toArray();
+
         $senders = Friendship::whereRecipient($this)
             ->accepted(1)
-            ->pluck('requester')
-            ->all();
+            ->get(['requester'])
+            ->toArray();
 
         $friendsIds = array_merge($recipients, $senders);
 
@@ -82,23 +83,23 @@ trait Friendable
             ->get();
     }
 
-    public function friendRequestFrom()
+    public function friendRequestsTo()
     {
         $senders = Friendship::whereRecipient($this)
             ->accepted(0)
-            ->pluck('requester')
-            ->all();
+            ->get(['requester'])
+            ->toArray();
 
         return static::whereIn('id', $senders)
             ->get();
     }
 
-    public function friendRequestTo()
+    public function friendRequestsFrom()
     {
         $recipients = Friendship::whereSender($this)
             ->accepted(0)
-            ->pluck('user_requested')
-            ->all();
+            ->get(['user_requested'])
+            ->toArray();
 
         return static::whereIn('id', $recipients)
             ->get();
