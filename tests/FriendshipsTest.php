@@ -82,6 +82,16 @@ class FriendshipTest extends TestCase
     }
 
     /** @test */
+    public function user_can_not_send_a_friend_request_to_himself()
+    {
+        $user = createUser();
+        $user->addFriend($user);
+        
+        $this->assertCount(0, $user->friendRequestFrom());
+        $this->assertCount(0, $user->friendRequestTo());
+    }
+
+    /** @test */
     public function user_is_friend_with_another_user_if_accepts_a_friend_request()
     {
         $sender = createUser();
