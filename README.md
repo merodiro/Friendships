@@ -82,8 +82,8 @@ $user->checkFriendship($anotherUser);
 it returns
 
 * `friends` => if they are friends
-* `waiting` => if they first user sent request to the second
-* `pending` => if they second user sent request to the first
+* `waiting` => if the first user sent request to the second
+* `pending` => if the second user sent request to the first
 * `not friends` => if they are not friends and no friend requests
 
 
