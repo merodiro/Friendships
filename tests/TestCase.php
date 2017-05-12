@@ -1,6 +1,6 @@
 <?php
 
-use Merodiro\Friendships\FriendShipsServiceProvider;
+use Merodiro\Friendships\FriendshipsServiceProvider;
 use GrahamCampbell\TestBench\AbstractPackageTestCase;
 use Orchestra\Database\ConsoleServiceProvider;
 
