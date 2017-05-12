@@ -1,28 +1,18 @@
 <?php
 
-namespace Tests;
-
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
-use Mockery;
 
 class FriendshipsEventsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
     
     public function setUp()
     {
         parent::setUp();
-        
-        $this->sender    = createUser();
-        $this->recipient = createUser();
-    }
-  
-    public function tearDown()
-    {
-        Mockery::close();
+
+        $this->sender    = factory(User::class)->create();
+        $this->recipient = factory(User::class)->create();
     }
   
     /** @test */

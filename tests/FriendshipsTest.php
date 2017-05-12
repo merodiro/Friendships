@@ -1,19 +1,16 @@
 <?php
 
-namespace Tests;
-
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FriendshipTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /** @test */
     public function user_can_send_a_friend_request()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
 
@@ -24,8 +21,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_can_not_send_a_friend_request_if_frienship_is_pending()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
         $sender->addFriend($recipient);
@@ -37,8 +34,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_can_send_a_friend_request_if_frienship_is_denied()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
 
@@ -52,8 +49,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_can_remove_a_friend_request()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
         $sender->deleteFriend($recipient);
@@ -72,8 +69,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function change_statue_to_pending_and_waiting()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
 
@@ -84,7 +81,7 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_can_not_send_a_friend_request_to_himself()
     {
-        $user = createUser();
+        $user = factory(User::class)->create();
         $user->addFriend($user);
         
         $this->assertCount(0, $user->friendRequestsTo());
@@ -94,8 +91,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_is_friend_with_another_user_if_accepts_a_friend_request()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
         $recipient->acceptFriend($sender);
@@ -107,8 +104,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_has_not_friend_request_from_if_he_accepted_the_friend_request()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
         $recipient->acceptFriend($sender);
@@ -120,8 +117,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function user_cannot_accept_his_own_friend_request()
     {
-        $sender = createUser();
-        $recipient = createUser();
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
         $sender->addFriend($recipient);
         $sender->acceptFriend($recipient);
 
@@ -131,8 +128,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function it_returns_accepted_friendships()
     {
-        $sender = createUser();
-        $recipients = createUser([], 3);
+        $sender = factory(User::class)->create();
+        $recipients = factory(User::class, 3)->create();
 
         foreach ($recipients as $recipient) {
             $sender->addFriend($recipient);
@@ -148,8 +145,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function it_returns_only_accepted_user_friendships()
     {
-        $sender = createUser();
-        $recipients = createUser([], 4);
+        $sender = factory(User::class)->create();
+        $recipients = factory(User::class, 4)->create();
 
         foreach ($recipients as $recipient) {
             $sender->addFriend($recipient);
@@ -172,8 +169,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function it_returns_friend_requests_from_user()
     {
-        $sender = createUser();
-        $recipients = createUser([], 3);
+        $sender = factory(User::class)->create();
+        $recipients = factory(User::class, 3)->create();
 
         foreach ($recipients as $recipient) {
             $sender->addFriend($recipient);
@@ -188,8 +185,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function it_returns_friend_requests_to_user()
     {
-        $recipient = createUser();
-        $senders = createUser([], 3);
+        $recipient = factory(User::class)->create();
+        $senders = factory(User::class, 3)->create();
 
         foreach ($senders as $sender) {
             $sender->addFriend($recipient);

@@ -17,16 +17,7 @@ cache:
     - $HOME/.composer/cache
 
 install:
-  - COMPOSER_DISCARD_CHANGES=1 composer install --prefer-source --no-interaction
-
-before_script:
-  - cp src/migrations/2017_01_30_200303_create_friendships_table.php vendor/laravel/laravel/database/migrations/2015_11_19_053825_create_friendships_table.php
-  - yes | cp tests/Stub_User.php vendor/laravel/laravel/app/User.php
-  - yes | cp tests/.env.testing vendor/laravel/laravel/.env
-  - touch vendor/laravel/laravel/database/database.sqlite
-  - cd vendor/laravel/laravel
-  - composer update --dev --prefer-source --no-interaction
-  - cd -
+  - travis_retry composer install --no-interaction --prefer-source
 
 script:
   - vendor/bin/phpunit
