@@ -9,7 +9,7 @@ abstract class TestCase extends AbstractPackageTestCase
     protected function getPackageProviders($app)
     {
         return [
-        	FriendShipsServiceProvider::class,
+        	FriendshipsServiceProvider::class,
         	ConsoleServiceProvider::class
         ];
     }
