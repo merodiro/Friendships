@@ -17,7 +17,7 @@ cache:
     - $HOME/.composer/cache
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - COMPOSER_DISCARD_CHANGES=1 composer install --prefer-source --no-interaction
 
 script:
   - vendor/bin/phpunit

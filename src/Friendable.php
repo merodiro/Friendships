@@ -61,6 +61,7 @@ trait Friendable
     public function deleteFriend($user)
     {
         Event::fire('friendship.deleted', [$this, $user]);
+
         return Friendship::betweenModels($this, $user)
             ->delete();
     }
