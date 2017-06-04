@@ -1,6 +1,6 @@
 ## How to use events
 
-for simplicity I will use events subscriber
+for simplicity we will use events subscriber in this example
 
 add the following in `EventServiceProvider.php`
 
@@ -56,5 +56,6 @@ public function onFriendDeleted($deleter, $deleted)
 {
     ...
 }
+...
 
 ```
