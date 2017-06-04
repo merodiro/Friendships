@@ -38,7 +38,7 @@ class FriendshipsSubscriber implements ShouldQueue
 
 ```
 
-then in each method of them
+then add the following methods
 
 ```php
 ...
