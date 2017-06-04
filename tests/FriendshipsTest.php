@@ -16,6 +16,9 @@ class FriendshipTest extends TestCase
 
         $this->assertCount(1, $recipient->friendRequestsTo());
         $this->assertCount(1, $sender->friendRequestsFrom());
+
+        $this->assertNotTrue( $sender->isFriendWith($recipient));
+        $this->assertNotTrue( $recipient->isFriendWith($sender));
     }
 
     /** @test */
@@ -99,6 +102,9 @@ class FriendshipTest extends TestCase
 
         $this->assertEquals('friends', $recipient->checkFriendship($sender));
         $this->assertEquals('friends', $sender->checkFriendship($recipient));
+
+        $this->assertTrue( $sender->isFriendWith($recipient));
+        $this->assertTrue( $recipient->isFriendWith($sender));
     }
 
     /** @test */

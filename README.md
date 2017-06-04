@@ -86,6 +86,11 @@ it returns
 * `pending` => if the second user sent request to the first
 * `not friends` => if they are not friends and no friend requests
 
+#### Check if user is friend with
+```php
+$user->isFriendWith($anotherUser);
+```
+it returns `true` if they are friends and `false` if they aren't friends
 
 
 ## Friends

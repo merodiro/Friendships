@@ -105,4 +105,11 @@ trait Friendable
         return static::whereIn('id', $recipients)
             ->get();
     }
+
+    public function isFriendWith($user)
+    {
+        $friendshipStatus = $this->checkFriendship($user);
+
+        return $friendshipStatus === 'friends';
+    }
 }
