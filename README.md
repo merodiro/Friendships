@@ -32,7 +32,6 @@ Publish config and migrations
 
 
 #### optional
-if you want to edit it
 ```
 php artisan vendor:publish --provider="Merodiro\Friendships\FriendshipsServiceProvider"
 ```
