@@ -28,13 +28,6 @@ Then include the service provider inside `config/app.php`.
     ...
 ];
 ```
-Publish config and migrations
-
-
-#### optional
-```
-php artisan vendor:publish --provider="Merodiro\Friendships\FriendshipsServiceProvider"
-```
 
 Finally, migrate the database
 ```

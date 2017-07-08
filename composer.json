@@ -29,5 +29,12 @@
             "tests/models/User.php",
             "tests/TestCase.php"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Merodiro\\Friendships\\FriendshipsServiceProvider"
+            ]
+        }
     }
 }
