@@ -59,12 +59,12 @@ $user->acceptFriend($sender);
 
 #### Deny a Friend Request
 ```php
-$user->delteFriend($sender);
+$user->deleteFriend($sender);
 ```
 
 #### Remove Friend
 ```php
-$user->delteFriend($friend);
+$user->deleteFriend($friend);
 ```
 
 #### check the current relation between two users
@@ -73,6 +73,7 @@ $user->checkFriendship($anotherUser);
 ```
 it returns
 
+* `same user` => if the user you are checking against is yourself
 * `friends` => if they are friends
 * `waiting` => if the first user sent request to the second
 * `pending` => if the second user sent request to the first
