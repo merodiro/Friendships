@@ -84,7 +84,7 @@ trait Friendable
             ->get();
     }
 
-    public function friendRequestsTo()
+    public function friendRequestsReceived()
     {
         $senders = Friendship::whereRecipient($this)
             ->accepted(0)
@@ -95,7 +95,7 @@ trait Friendable
             ->get();
     }
 
-    public function friendRequestsFrom()
+    public function friendRequestsSent()
     {
         $recipients = Friendship::whereSender($this)
             ->accepted(0)
@@ -106,7 +106,7 @@ trait Friendable
             ->get();
     }
 
-    public function isFriendWith($user)
+    public function isFriendsWith($user)
     {
         $friendshipStatus = $this->checkFriendship($user);
 

@@ -59,12 +59,12 @@ $user->acceptFriend($sender);
 
 #### Deny a Friend Request
 ```php
-$user->delteFriend($sender);
+$user->deleteFriend($sender);
 ```
 
 #### Remove Friend
 ```php
-$user->delteFriend($friend);
+$user->deleteFriend($friend);
 ```
 
 #### check the current relation between two users
@@ -73,14 +73,15 @@ $user->checkFriendship($anotherUser);
 ```
 it returns
 
+* `same user` => if the user you are checking against is yourself
 * `friends` => if they are friends
 * `waiting` => if the first user sent request to the second
 * `pending` => if the second user sent request to the first
 * `not friends` => if they are not friends and no friend requests
 
-#### Check if user is friend with
+#### Check if two users are friends
 ```php
-$user->isFriendWith($anotherUser);
+$user->isFriendsWith($anotherUser);
 ```
 it returns `true` if they are friends and `false` if they aren't friends
 
@@ -92,14 +93,14 @@ To get a collection of users use the following methods:
 $user->friends();
 ```
 
-#### Get a list of users who sent friend request to `$user`
+#### Get a list of users that `$user` has received friend requests from
 ```php
-$user->friendRequestsTo();
+$user->friendRequestsReceived();
 ```
 
-#### Get a list of users who have friend requests from `$user`
+#### Get a list of users that `$user` has sent friend requests to
 ```php
-$user->friendRequestsFrom();
+$user->friendRequestsSent();
 ```
 
 ## Events
