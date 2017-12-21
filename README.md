@@ -132,8 +132,8 @@ If you discover any security related issues, please email merodiro@gmail.com ins
 
 ## Credits
 
-- [Amr A. Mohammed][https://github.com/merodiro]
-- [All Contributors][../../contributors]
+- [Amr A. Mohammed](https://github.com/merodiro)
+- [All Contributors](../../contributors)
 
 ## License
 
