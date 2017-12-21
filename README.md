@@ -115,3 +115,26 @@ This is the list of the events fired by default for each action
 
 for more about how to use the events
 [Check this example](/Events.md)
+
+## Testing
+
+``` bash
+$ composer test
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
+
+## Security
+
+If you discover any security related issues, please email merodiro@gmail.com instead of using the issue tracker.
+
+## Credits
+
+- [Amr A. Mohammed][https://github.com/merodiro]
+- [All Contributors][../../contributors]
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
