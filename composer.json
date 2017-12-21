@@ -1,6 +1,6 @@
 {
     "name": "merodiro/friendships",
-    "description": "A simple package for friendships",
+    "description": "This package gives users the ability to manage their friendships.",
     "license": "MIT",
     "keywords": ["laravel", "friendships", "friend-system", "friends", "eloquent"],
     "authors": [{
