@@ -35,7 +35,7 @@ class FriendshipsEventsTest extends TestCase
             ->withArgs(['friendrequest.accepted', Mockery::any()]);
         
         $this->recipient->acceptFriend($this->sender);
-    }  
+    }
   
     /** @test */
     public function friendship_is_cancelled()

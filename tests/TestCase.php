@@ -9,33 +9,33 @@ abstract class TestCase extends AbstractPackageTestCase
     protected function getPackageProviders($app)
     {
         return [
-        	FriendshipsServiceProvider::class,
-        	ConsoleServiceProvider::class
+            FriendshipsServiceProvider::class,
+            ConsoleServiceProvider::class
         ];
     }
 
     protected function getEnvironmentSetUp($app)
-	{
-	    $app['config']->set('database.default', 'testbench');
-	    $app['config']->set('database.connections.testbench', [
-	        'driver'   => 'sqlite',
-	        'database' => ':memory:',
-	        'prefix'   => '',
-	    ]);
-	}
+    {
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
 
     public function setUp()
     {
         parent::setUp();
 
         $this->loadMigrationsFrom([
-		    '--database' => 'testbench',
-		    '--realpath' => realpath(__DIR__.'/database/migrations'),
-		]);
-		$this->loadMigrationsFrom([
-			'--database' => 'testbench',
-			'--realpath' => realpath(__DIR__.'/../src/migrations'),
-		]);
+            '--database' => 'testbench',
+            '--realpath' => realpath(__DIR__.'/database/migrations'),
+        ]);
+        $this->loadMigrationsFrom([
+            '--database' => 'testbench',
+            '--realpath' => realpath(__DIR__.'/../src/migrations'),
+        ]);
 
         $this->withFactories(realpath(__DIR__.'/database/factories'));
     }
