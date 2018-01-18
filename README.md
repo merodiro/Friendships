@@ -73,11 +73,11 @@ $user->checkFriendship($anotherUser);
 ```
 it returns
 
-* `same user` => if the user you are checking against is yourself
+* `same_user` => if the user you are checking against is yourself
 * `friends` => if they are friends
 * `waiting` => if the first user sent request to the second
 * `pending` => if the second user sent request to the first
-* `not friends` => if they are not friends and no friend requests
+* `not_friends` => if they are not friends and no friend requests
 
 #### Check if two users are friends
 ```php
