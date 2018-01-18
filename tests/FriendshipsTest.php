@@ -66,7 +66,7 @@ class FriendshipTest extends TestCase
         $this->assertEquals('friends', $recipient->checkFriendship($sender));
 
         $sender->deleteFriend($recipient);
-        $this->assertEquals('not friends', $recipient->checkFriendship($sender));
+        $this->assertEquals('not_friends', $recipient->checkFriendship($sender));
     }
 
     /** @test */
@@ -85,8 +85,10 @@ class FriendshipTest extends TestCase
     public function user_can_not_send_a_friend_request_to_himself()
     {
         $user = factory(User::class)->create();
+        
         $user->addFriend($user);
         
+        $this->assertEquals('same_user', $user->checkFriendship($user));
         $this->assertCount(0, $user->friendRequestsReceived());
         $this->assertCount(0, $user->friendRequestsSent());
     }

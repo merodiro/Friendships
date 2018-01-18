@@ -9,14 +9,14 @@ trait Friendable
     public function checkFriendship($user)
     {
         if ($this->id == $user->id) {
-            return 'same user';
+            return 'same_user';
         }
 
         $friendship = Friendship::betweenModels($this, $user)
             ->first();
 
         if (!$friendship) {
-            return 'not friends';
+            return 'not_friends';
         }
 
         if ($friendship->status == 1) {
@@ -34,7 +34,7 @@ trait Friendable
     {
         $friendshipStatus = $this->checkFriendship($recipient);
 
-        if ($friendshipStatus == 'not friends') {
+        if ($friendshipStatus == 'not_friends') {
             Event::fire('friendrequest.sent', [$this, $recipient]);
 
             return Friendship::create([
