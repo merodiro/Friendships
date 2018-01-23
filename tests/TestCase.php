@@ -3,40 +3,24 @@
 use Merodiro\Friendships\FriendshipsServiceProvider;
 use GrahamCampbell\TestBench\AbstractPackageTestCase;
 use Orchestra\Database\ConsoleServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 abstract class TestCase extends AbstractPackageTestCase
 {
+    use RefreshDatabase;
+    
     protected function getPackageProviders($app)
     {
         return [
-            FriendshipsServiceProvider::class,
-            ConsoleServiceProvider::class
+            FriendshipsServiceProvider::class
         ];
-    }
-
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
     }
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom([
-            '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/database/migrations'),
-        ]);
-        $this->loadMigrationsFrom([
-            '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../src/migrations'),
-        ]);
-
-        $this->withFactories(realpath(__DIR__.'/database/factories'));
+        $this->loadLaravelMigrations('sqlite');
+        $this->withFactories(__DIR__.'/database/factories');
     }
 }

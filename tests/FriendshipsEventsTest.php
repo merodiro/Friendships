@@ -1,12 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 
 class FriendshipsEventsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function setUp()
     {
         parent::setUp();

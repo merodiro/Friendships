@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FriendshipTest extends TestCase
 {
-    use DatabaseTransactions;
 
     /** @test */
     public function user_can_send_a_friend_request()
