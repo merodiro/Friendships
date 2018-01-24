@@ -35,13 +35,13 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($recipient);
 
         if ($friendshipStatus == 'not_friends') {
-            Event::fire('friendrequest.sent', [$this, $recipient]);
-
             Friendship::create([
-                'requester'      => $this->id,
-                'user_requested' => $recipient->id,
-            ]);
+                    'requester'      => $this->id,
+                    'user_requested' => $recipient->id,
+                ]);
+            Event::fire('friendrequest.sent', [$this, $recipient]);
         }
+
         return $friendshipStatus == 'not_friends';
     }
 
@@ -50,24 +50,24 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($sender);
 
         if ($friendshipStatus == 'pending') {
-            Event::fire('friendrequest.accepted', [$this, $sender]);
-
             Friendship::betweenUsers($this, $sender)
                 ->update(['status' => 1]);
+            Event::fire('friendrequest.accepted', [$this, $sender]);
         }
+
         return $friendshipStatus == 'pending';
     }
 
     public function deleteFriend($user)
     {
         $friendshipStatus = $this->checkFriendship($user);
-        
-        if ($friendshipStatus != 'not_friends') {
-            Event::fire('friendship.deleted', [$this, $user]);
 
+        if ($friendshipStatus != 'not_friends') {
             Friendship::betweenUsers($this, $user)
                 ->delete();
+            Event::fire('friendship.deleted', [$this, $user]);
         }
+
         return $friendshipStatus != 'not_friends';
     }
 
