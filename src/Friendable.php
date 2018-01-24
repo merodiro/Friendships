@@ -62,7 +62,7 @@ trait Friendable
     {
         Event::fire('friendship.deleted', [$this, $user]);
 
-        return Friendship::betweenUsers($this, $user)
+        Friendship::betweenUsers($this, $user)
             ->delete();
     }
 
