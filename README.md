@@ -148,7 +148,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/merodiro/friendships.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/merodiro/Friendships/master.svg?style=flat-square
-[ico-appveyor]: https://img.shields.io/appveyor/ci/merodiro/friendships.svg?style=flat-square
+[ico-appveyor]: https://ci.appveyor.com/api/projects/status/6cio9isdnhmdxl8r?svg=true
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/merodiro/Friendships.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/merodiro/Friendships.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/merodiro/friendships.svg?style=flat-square
