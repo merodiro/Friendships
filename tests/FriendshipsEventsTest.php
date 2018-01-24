@@ -15,9 +15,9 @@ class FriendshipsEventsTest extends TestCase
     /** @test */
     public function friend_request_is_sent()
     {
-        Event::shouldReceive('fire')
+        Event::shouldReceive('dispatch')
             ->once()
-            ->withArgs(['friendrequest.sent', Mockery::any()]);
+            ->withArgs(['friendrequest.sent', [$this->sender, $this->recipient]]);
         
         $this->sender->addfriend($this->recipient);
     }
@@ -27,9 +27,9 @@ class FriendshipsEventsTest extends TestCase
     {
         $this->sender->addfriend($this->recipient);
 
-        Event::shouldReceive('fire')
+        Event::shouldReceive('dispatch')
             ->once()
-            ->withArgs(['friendrequest.accepted', Mockery::any()]);
+            ->withArgs(['friendrequest.accepted', [$this->recipient, $this->sender]]);
         
         $this->recipient->acceptFriend($this->sender);
     }
@@ -40,9 +40,9 @@ class FriendshipsEventsTest extends TestCase
         $this->sender->addfriend($this->recipient);
         $this->recipient->acceptFriend($this->sender);
 
-        Event::shouldReceive('fire')
+        Event::shouldReceive('dispatch')
             ->once()
-            ->withArgs(['friendship.deleted', Mockery::any()]);
+            ->withArgs(['friendship.deleted', [$this->recipient, $this->sender]]);
         
         $this->recipient->deleteFriend($this->sender);
     }
