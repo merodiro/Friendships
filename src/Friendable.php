@@ -37,11 +37,12 @@ trait Friendable
         if ($friendshipStatus == 'not_friends') {
             Event::fire('friendrequest.sent', [$this, $recipient]);
 
-            return Friendship::create([
+            Friendship::create([
                 'requester'      => $this->id,
                 'user_requested' => $recipient->id,
             ]);
         }
+        return $friendshipStatus == 'not_friends';
     }
 
     public function acceptFriend($sender)
