@@ -24,8 +24,8 @@ install:
   - IF %PHP%==0 echo extension=pdo_sqlite >> php.ini
   - IF %PHP%==0 (composer --version) ELSE (composer self-update)
   - cd %APPVEYOR_BUILD_FOLDER%
-  - composer install --prefer-dist --no-progress
+  - composer install --prefer-dist --no-interaction
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - vendor\bin\phpunit --colors=always
+  - composer run test
