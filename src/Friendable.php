@@ -12,7 +12,7 @@ trait Friendable
             return 'same_user';
         }
 
-        $friendship = Friendship::betweenModels($this, $user)
+        $friendship = Friendship::betweenUsers($this, $user)
             ->first();
 
         if (!$friendship) {
@@ -51,7 +51,7 @@ trait Friendable
         if ($friendshipStatus == 'pending') {
             Event::fire('friendrequest.accepted', [$this, $sender]);
 
-            return $friendship = Friendship::betweenModels($this, $sender)
+            return $friendship = Friendship::betweenUsers($this, $sender)
                 ->update([
                         'status' => 1,
                     ]);
@@ -62,7 +62,7 @@ trait Friendable
     {
         Event::fire('friendship.deleted', [$this, $user]);
 
-        return Friendship::betweenModels($this, $user)
+        return Friendship::betweenUsers($this, $user)
             ->delete();
     }
 

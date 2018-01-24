@@ -23,7 +23,7 @@ class Friendship extends Model
         return $query->where('status', $val);
     }
 
-    public function scopeBetweenModels($query, $sender, $recipient)
+    public function scopeBetweenUsers($query, $sender, $recipient)
     {
         $query->where(function ($queryIn) use ($sender, $recipient) {
             $queryIn->where(function ($q) use ($sender, $recipient) {
