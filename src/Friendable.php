@@ -60,10 +60,15 @@ trait Friendable
 
     public function deleteFriend($user)
     {
-        Event::fire('friendship.deleted', [$this, $user]);
+        $friendshipStatus = $this->checkFriendship($user);
+        
+        if ($friendshipStatus != 'not_friends') {
+            Event::fire('friendship.deleted', [$this, $user]);
 
-        Friendship::betweenUsers($this, $user)
-            ->delete();
+            Friendship::betweenUsers($this, $user)
+                ->delete();
+        }
+        return $friendshipStatus != 'not_friends';
     }
 
     public function friends()
