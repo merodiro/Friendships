@@ -52,11 +52,10 @@ trait Friendable
         if ($friendshipStatus == 'pending') {
             Event::fire('friendrequest.accepted', [$this, $sender]);
 
-            return $friendship = Friendship::betweenUsers($this, $sender)
-                ->update([
-                        'status' => 1,
-                    ]);
+            Friendship::betweenUsers($this, $sender)
+                ->update(['status' => 1]);
         }
+        return $friendshipStatus == 'pending';
     }
 
     public function deleteFriend($user)
