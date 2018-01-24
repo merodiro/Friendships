@@ -21,11 +21,12 @@ install:
   - IF %PHP%==0 cinst php -y --version %PHP_CHOCO_VERSION%  --params "/InstallDir:%PHP_CACHE_DIR%"
   - IF %PHP%==0 cinst composer -y --ia "/DEV=%PHP_CACHE_DIR%"
   - php -v
+  - appveyor-retry cinst -y sqlite
   - IF %PHP%==0 echo extension=pdo_sqlite >> php.ini
   - IF %PHP%==0 echo extension=sqlite3 >> php.ini
   - IF %PHP%==0 (composer --version) ELSE (composer self-update)
   - cd %APPVEYOR_BUILD_FOLDER%
-  - composer install --prefer-dist --no-interaction
+  - composer install --prefer-dist --no-interaction --no-progress
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
