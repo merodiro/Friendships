@@ -81,15 +81,15 @@ it returns
 
 * `same_user` => if the user you are checking against is yourself
 * `friends` => if they are friends
-* `waiting` => if the first user sent a request to the second
+* `waiting` => if the first user sent a request waiting for approval to the second
 * `pending` => if the second user sent a request to the first
-* `not_friends` => if they are not friends and no friend requests
+* `not_friends` => if they are not friends
 
 #### Check if two users are friends
 ```php
 $user->isFriendsWith($anotherUser);
 ```
-it returns `true` if they are friends and `false` if they aren't friends
+it returns `true` if they are friends and `false` if they aren't
 
 
 ## Friends
