@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 abstract class TestCase extends AbstractPackageTestCase
 {
     use RefreshDatabase;
-    
+
     protected function getPackageProviders($app)
     {
         return [

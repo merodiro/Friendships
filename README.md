@@ -73,7 +73,7 @@ $user->deleteFriend($sender);
 $user->deleteFriend($friend);
 ```
 
-#### check the current relation between two users
+#### check the current relationship between two users
 ```php
 $user->checkFriendship($anotherUser);
 ```
@@ -81,8 +81,8 @@ it returns
 
 * `same_user` => if the user you are checking against is yourself
 * `friends` => if they are friends
-* `waiting` => if the first user sent request to the second
-* `pending` => if the second user sent request to the first
+* `waiting` => if the first user sent a request to the second
+* `pending` => if the second user sent a request to the first
 * `not_friends` => if they are not friends and no friend requests
 
 #### Check if two users are friends
@@ -117,7 +117,7 @@ This is the list of the events fired by default for each action
 |friendrequest.sent    |When a friend request is sent    |
 |friendrequest.accepted|When a friend request is accepted|
 |friendship.deleted    |When a friend request is denied  |
-|friendship.deleted    |When a friendship is cancelled   |
+|friendship.deleted    |When a friendship is deleted     |
 
 for more about how to use the events
 [Check this example](/Events.md)
@@ -134,7 +134,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT
 
 ## Security
 
-If you discover any security related issues, please email merodiro@gmail.com instead of using the issue tracker.
+If you discover any security-related issues, please email merodiro@gmail.com instead of using the issue tracker.
 
 ## Credits
 
