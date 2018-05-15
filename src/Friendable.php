@@ -120,6 +120,7 @@ trait Friendable
     {
         $userFriends = $user->friends();
         $friends = $this->friends();
+
         return $userFriends->intersect($friends);
     }
 }
