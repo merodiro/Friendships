@@ -203,4 +203,38 @@ class FriendshipTest extends TestCase
         $this->assertCount(2, $recipient->friendRequestsReceived());
         $this->containsOnlyInstancesOf(\App\User::class, $recipient->friendRequestsReceived());
     }
+    /** @test */
+    public function it_returns_mutual_friends()
+    {
+        // create users
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
+        $user4 = factory(User::class)->create();
+        $user5 = factory(User::class)->create();
+        $user6 = factory(User::class)->create();
+
+        // user one add friends
+        $user1->addFriend($user2);
+        $user2->acceptFriend($user1);
+        $user1->addFriend($user3);
+        $user3->acceptFriend($user1);
+        $user1->addFriend($user4);
+        $user4->acceptFriend($user1);
+        $user1->addFriend($user6);
+        $user6->acceptFriend($user1);
+
+        // user two add friends
+        $user2->addFriend($user1);
+        $user1->acceptFriend($user2);
+        $user2->addFriend($user3);
+        $user3->acceptFriend($user2);
+        $user2->addFriend($user5);
+        $user5->acceptFriend($user2);
+        $user2->addFriend($user6);
+        $user6->acceptFriend($user2);
+
+        $this->assertCount(2, $user1->mutualFriends($user2));
+        $this->assertEquals([$user3->toArray(), $user6->toArray()], $user1->mutualFriends($user2)->toArray());
+    }
 }

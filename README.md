@@ -73,6 +73,11 @@ $user->deleteFriend($sender);
 $user->deleteFriend($friend);
 ```
 
+#### Mutual Friends
+```php
+$user->mutualFriends($anotherUser);
+```
+
 #### check the current relationship between two users
 ```php
 $user->checkFriendship($anotherUser);
