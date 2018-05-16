@@ -121,6 +121,14 @@ trait Friendable
         return $friendshipStatus === 'friends';
     }
 
+    public function mutualFriendsCount($user)
+    {
+        $userFriends = $user->friends_ids();
+        $friends = $this->friends_ids();
+
+        return $userFriends->intersect($friends)->count();
+    }
+
     public function mutualFriends($user)
     {
         $userFriends = $user->friends_ids();

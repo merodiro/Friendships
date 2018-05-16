@@ -234,6 +234,7 @@ class FriendshipTest extends TestCase
         $user2->addFriend($user6);
         $user6->acceptFriend($user2);
 
+        $this->assertEquals(2, $user1->mutualFriendsCount($user2));
         $this->assertCount(2, $user1->mutualFriends($user2));
         $this->assertEquals([$user3->toArray(), $user6->toArray()], $user1->mutualFriends($user2)->toArray());
     }
