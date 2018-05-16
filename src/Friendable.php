@@ -87,19 +87,19 @@ trait Friendable
     public function friends()
     {
 
-        return $this->belongsToMany('User', 'friendships', 'user_id', 'friend_id')
+        return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'user_id', 'friend_id')
             ->where('status', 1);
     }
 
     public function friendRequestsReceived()
     {
-        return $this->belongsToMany('User', 'friendships', 'friend_id', 'user_id')
+        return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'friend_id', 'user_id')
             ->where('status', 0);
     }
 
     public function friendRequestsSent()
     {
-        return $this->belongsToMany('User', 'friendships', 'user_id', 'friend_id')
+        return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'user_id', 'friend_id')
             ->where('status', 0);
     }
 

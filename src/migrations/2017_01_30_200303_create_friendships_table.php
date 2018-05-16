@@ -23,12 +23,12 @@ class CreateFriendshipsTable extends Migration
             $table->unique(['user_id', 'friend_id']);
 
             $table->foreign('user_id')
-                ->references('id')->on('users')
+                ->references('id')->on(config('friendships.users_table'))
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
             $table->foreign('friend_id')
-                ->references('id')->on('users')
+                ->references('id')->on(config('friendships.users_table'))
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

@@ -16,6 +16,14 @@ abstract class TestCase extends AbstractPackageTestCase
         ];
     }
 
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('friendships.user_model', User::class);
+    }
+
+
     public function setUp()
     {
         parent::setUp();

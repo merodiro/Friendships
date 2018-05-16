@@ -13,6 +13,15 @@ class FriendshipsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__ . '/config/friendships.php' => config_path('friendships.php'),
+        ], 'config');
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/friendships.php',
+            'friendships'
+        );
+
         $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
