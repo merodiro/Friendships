@@ -71,19 +71,18 @@ trait Friendable
 
     public function friends()
     {
-        $recipients = Friendship::whereSender($this)
-            ->accepted(1)
-            ->get(['user_requested'])
-            ->toArray();
+        $friendsIds = Friendship::where(function ($query) {
+            $query->whereSender($this);
+        })->orWhere(function ($query) {
+            $query->whereRecipient($this);
+        })->accepted(1)->get(['user_requested', 'requester'])->toArray();
 
-        $senders = Friendship::whereRecipient($this)
-            ->accepted(1)
-            ->get(['requester'])
-            ->toArray();
-
-        $friendsIds = array_merge($recipients, $senders);
+        $friendsIds = collect($friendsIds)->flatten()->unique()->reject(function ($id) {
+            return $id == $this->id;
+        });
 
         return static::whereIn('id', $friendsIds)
+            ->distinct()
             ->get();
     }
 
