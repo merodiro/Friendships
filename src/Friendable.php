@@ -69,24 +69,8 @@ trait Friendable
         return $friendshipStatus != 'not_friends';
     }
 
-    public function friendsIds()
-    {
-        $friendsIds = Friendship::where(function ($query) {
-            $query->whereSender($this);
-        })->orWhere(function ($query) {
-            $query->whereRecipient($this);
-        })->accepted(1)->get(['friend_id', 'user_id'])->toArray();
-
-        $friendsIds = collect($friendsIds)->flatten()->unique()->reject(function ($id) {
-            return $id == $this->id;
-        });
-
-        return $friendsIds;
-    }
-
     public function friends()
     {
-
         return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'user_id', 'friend_id')
             ->where('status', 1);
     }
@@ -112,16 +96,16 @@ trait Friendable
 
     public function mutualFriendsCount($user)
     {
-        $userFriends = $user->friendsIds();
-        $friends = $this->friendsIds();
+        $userFriends = $user->friends->pluck('id');
+        $friends = $this->friends->pluck('id');
 
         return $userFriends->intersect($friends)->count();
     }
 
     public function mutualFriends($user)
     {
-        $userFriends = $user->friendsIds();
-        $friends = $this->friendsIds();
+        $userFriends = $user->friends->pluck('id');
+        $friends = $this->friends->pluck('id');
 
         $mutualIds = $userFriends->intersect($friends);
 
