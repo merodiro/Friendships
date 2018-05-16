@@ -15,19 +15,19 @@ class CreateFriendshipsTable extends Migration
     {
         Schema::create('friendships', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('requester');
-            $table->unsignedInteger('user_requested');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('friend_id');
             $table->boolean('status')->default(0);
             $table->timestamps();
 
-            $table->unique(['requester', 'user_requested']);
+            $table->unique(['user_id', 'friend_id']);
 
-            $table->foreign('requester')
+            $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('user_requested')
+            $table->foreign('friend_id')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

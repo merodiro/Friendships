@@ -10,20 +10,15 @@ trait Friendable
             return 'same_user';
         }
 
-        $friendship = Friendship::betweenUsers($this, $user)
-            ->first();
+        $friendship = Friendship::betweenUsers($this, $user);
 
-        if (!$friendship) {
+        if ($friendship->count() == 0) {
             return 'not_friends';
-        }
-
-        if ($friendship->status == 1) {
+        } elseif ($friendship->count() == 2) {
             return 'friends';
-        }
-        if ($friendship->requester == $this->id) {
+        } elseif ($friendship->first()->user_id == $this->id) {
             return 'waiting';
-        }
-        if ($friendship->user_requested == $this->id) {
+        } else {
             return 'pending';
         }
     }
@@ -34,13 +29,13 @@ trait Friendable
 
         if ($friendshipStatus == 'not_friends') {
             Friendship::create([
-                    'requester'      => $this->id,
-                    'user_requested' => $recipient->id,
-                ]);
+                'user_id' => $this->id,
+                'friend_id' => $recipient->id,
+            ]);
             event('friendrequest.sent', [$this, $recipient]);
         }
 
-        return $friendshipStatus == 'not_friends';
+        return $friendshipStatus == 'waiting';
     }
 
     public function acceptFriend($sender)
@@ -48,12 +43,17 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($sender);
 
         if ($friendshipStatus == 'pending') {
+            Friendship::create([
+                'user_id' => $this->id,
+                'friend_id' => $sender->id,
+                'status' => 1
+            ]);
             Friendship::betweenUsers($this, $sender)
                 ->update(['status' => 1]);
             event('friendrequest.accepted', [$this, $sender]);
         }
 
-        return $friendshipStatus == 'pending';
+        return $friendshipStatus == 'friends';
     }
 
     public function deleteFriend($user)
@@ -75,7 +75,7 @@ trait Friendable
             $query->whereSender($this);
         })->orWhere(function ($query) {
             $query->whereRecipient($this);
-        })->accepted(1)->get(['user_requested', 'requester'])->toArray();
+        })->accepted(1)->get(['friend_id', 'user_id'])->toArray();
 
         $friendsIds = collect($friendsIds)->flatten()->unique()->reject(function ($id) {
             return $id == $this->id;
@@ -86,33 +86,21 @@ trait Friendable
 
     public function friends()
     {
-        $friendsIds = $this->friendsIds();
 
-        return static::whereIn('id', $friendsIds)
-            ->distinct()
-            ->get();
+        return $this->belongsToMany('User', 'friendships', 'user_id', 'friend_id')
+            ->where('status', 1);
     }
 
     public function friendRequestsReceived()
     {
-        $senders = Friendship::whereRecipient($this)
-            ->accepted(0)
-            ->get(['requester'])
-            ->toArray();
-
-        return static::whereIn('id', $senders)
-            ->get();
+        return $this->belongsToMany('User', 'friendships', 'friend_id', 'user_id')
+            ->where('status', 0);
     }
 
     public function friendRequestsSent()
     {
-        $recipients = Friendship::whereSender($this)
-            ->accepted(0)
-            ->get(['user_requested'])
-            ->toArray();
-
-        return static::whereIn('id', $recipients)
-            ->get();
+        return $this->belongsToMany('User', 'friendships', 'user_id', 'friend_id')
+            ->where('status', 0);
     }
 
     public function isFriendsWith($user)

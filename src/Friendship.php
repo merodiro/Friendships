@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Friendship extends Model
 {
-    protected $fillable = ['requester', 'user_requested', 'status'];
+    protected $fillable = ['user_id', 'friend_id', 'status'];
 
     public function scopeWhereSender($query, $model)
     {
-        return $query->where('requester', $model->getKey());
+        return $query->where('user_id', $model->getKey());
     }
 
     public function scopeWhereRecipient($query, $model)
     {
-        return $query->where('user_requested', $model->getKey());
+        return $query->where('friend_id', $model->getKey());
     }
 
     public function scopeAccepted($query, $val)
