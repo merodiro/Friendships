@@ -28,14 +28,11 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($recipient);
 
         if ($friendshipStatus == 'not_friends') {
-            Friendship::create([
-                'user_id' => $this->id,
-                'friend_id' => $recipient->id,
-            ]);
-            event('friendrequest.sent', [$this, $recipient]);
-        }
+            $this->friends()->attach($recipient);
 
-        return $friendshipStatus == 'waiting';
+            event('friendrequest.sent', [$this, $recipient]);
+            return 'waiting';
+        }
     }
 
     public function acceptFriend($sender)
@@ -43,17 +40,12 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($sender);
 
         if ($friendshipStatus == 'pending') {
-            Friendship::create([
-                'user_id' => $this->id,
-                'friend_id' => $sender->id,
-                'status' => 1
-            ]);
-            Friendship::betweenUsers($this, $sender)
-                ->update(['status' => 1]);
-            event('friendrequest.accepted', [$this, $sender]);
-        }
+            $this->friends()->attach($sender, ['status' => 1]);
+            $sender->friends()->updateExistingPivot($this, ['status' => 1]);
 
-        return $friendshipStatus == 'friends';
+            event('friendrequest.accepted', [$this, $sender]);
+            return 'friends';
+        }
     }
 
     public function deleteFriend($user)
@@ -61,12 +53,12 @@ trait Friendable
         $friendshipStatus = $this->checkFriendship($user);
 
         if ($friendshipStatus != 'not_friends') {
-            Friendship::betweenUsers($this, $user)
-                ->delete();
-            event('friendship.deleted', [$this, $user]);
-        }
+            $this->friends()->detach($user);
+            $user->friends()->detach($this);
 
-        return $friendshipStatus != 'not_friends';
+            event('friendship.deleted', [$this, $user]);
+            return 'not_friends';
+        }
     }
 
     public function friends()
@@ -89,9 +81,7 @@ trait Friendable
 
     public function isFriendsWith($user)
     {
-        $friendshipStatus = $this->checkFriendship($user);
-
-        return $friendshipStatus === 'friends';
+        return $this->friends->contains($user);
     }
 
     public function mutualFriendsCount($user)
