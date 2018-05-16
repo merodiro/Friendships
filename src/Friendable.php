@@ -80,6 +80,7 @@ trait Friendable
         $friendsIds = collect($friendsIds)->flatten()->unique()->reject(function ($id) {
             return $id == $this->id;
         });
+
         return $friendsIds;
     }
 
