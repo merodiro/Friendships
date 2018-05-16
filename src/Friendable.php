@@ -69,7 +69,7 @@ trait Friendable
         return $friendshipStatus != 'not_friends';
     }
 
-    public function friends_ids()
+    public function friendsIds()
     {
         $friendsIds = Friendship::where(function ($query) {
             $query->whereSender($this);
@@ -85,7 +85,7 @@ trait Friendable
 
     public function friends()
     {
-        $friendsIds = $this->friends_ids();
+        $friendsIds = $this->friendsIds();
 
         return static::whereIn('id', $friendsIds)
             ->distinct()
@@ -123,16 +123,16 @@ trait Friendable
 
     public function mutualFriendsCount($user)
     {
-        $userFriends = $user->friends_ids();
-        $friends = $this->friends_ids();
+        $userFriends = $user->friendsIds();
+        $friends = $this->friendsIds();
 
         return $userFriends->intersect($friends)->count();
     }
 
     public function mutualFriends($user)
     {
-        $userFriends = $user->friends_ids();
-        $friends = $this->friends_ids();
+        $userFriends = $user->friendsIds();
+        $friends = $this->friendsIds();
 
         $mutualIds = $userFriends->intersect($friends);
 
