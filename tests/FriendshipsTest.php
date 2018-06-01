@@ -43,14 +43,11 @@ class FriendshipTest extends TestCase
 
         $recipient->deleteFriend($sender);
         $this->assertCount(0, $recipient->friendRequestsReceived);
-        // dd($sender->checkFriendship($recipient));
 
 
         $sender->addFriend($recipient);
         // reset relationship
         $recipient->setRelations([]);
-        // dd($recipient->friendRequestsReceived);
-        // dd($recipient->friendRequestsReceived()->get());
         $this->assertCount(1, $recipient->friendRequestsReceived);
     }
 
@@ -215,36 +212,32 @@ class FriendshipTest extends TestCase
     /** @test */
     public function it_returns_mutual_friends()
     {
+        $users = factory(User::class, 6)->create();
         // create users
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $user3 = factory(User::class)->create();
-        $user4 = factory(User::class)->create();
-        $user5 = factory(User::class)->create();
-        $user6 = factory(User::class)->create();
+
 
         // user one add friends
-        $user1->addFriend($user2);
-        $user2->acceptFriend($user1);
-        $user1->addFriend($user3);
-        $user3->acceptFriend($user1);
-        $user1->addFriend($user4);
-        $user4->acceptFriend($user1);
-        $user1->addFriend($user6);
-        $user6->acceptFriend($user1);
+        $users[0]->addFriend($users[1]);
+        $users[1]->acceptFriend($users[0]);
+        $users[0]->addFriend($users[2]);
+        $users[2]->acceptFriend($users[0]);
+        $users[0]->addFriend($users[3]);
+        $users[3]->acceptFriend($users[0]);
+        $users[0]->addFriend($users[5]);
+        $users[5]->acceptFriend($users[0]);
 
         // user two add friends
-        $user2->addFriend($user1);
-        $user1->acceptFriend($user2);
-        $user2->addFriend($user3);
-        $user3->acceptFriend($user2);
-        $user2->addFriend($user5);
-        $user5->acceptFriend($user2);
-        $user2->addFriend($user6);
-        $user6->acceptFriend($user2);
+        $users[1]->addFriend($users[0]);
+        $users[0]->acceptFriend($users[1]);
+        $users[1]->addFriend($users[2]);
+        $users[2]->acceptFriend($users[1]);
+        $users[1]->addFriend($users[4]);
+        $users[4]->acceptFriend($users[1]);
+        $users[1]->addFriend($users[5]);
+        $users[5]->acceptFriend($users[1]);
 
-        $this->assertEquals(2, $user1->mutualFriendsCount($user2));
-        $this->assertCount(2, $user1->mutualFriends($user2));
-        $this->assertEquals([$user3->toArray(), $user6->toArray()], $user1->mutualFriends($user2)->toArray());
+        $this->assertEquals(2, $users[0]->mutualFriendsCount($users[1]));
+        $this->assertCount(2, $users[0]->mutualFriends($users[1]));
+        $this->assertEquals([$users[2]->toArray(), $users[5]->toArray()], $users[0]->mutualFriends($users[1])->toArray());
     }
 }
