@@ -23,7 +23,7 @@ install:
     - php -v
     - IF %PHP%==0 cd %PHP_CACHE_DIR%
     - IF %PHP%==0 echo extension=pdo_sqlite >> php.ini
-    - IF %PHP%==0 echo extension=ext-fileinfo >> php.ini
+    - IF %PHP%==0 echo extension=ext-fileinfo.dll >> php.ini
     - IF %PHP%==0 (composer --version) ELSE (composer self-update)
     - cd %APPVEYOR_BUILD_FOLDER%
     - composer install --prefer-dist --no-interaction --no-progress
