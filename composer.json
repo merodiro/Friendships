@@ -2,14 +2,22 @@
     "name": "merodiro/friendships",
     "description": "This package gives users the ability to manage their friendships.",
     "license": "MIT",
-    "keywords": ["laravel", "friendships", "friend-system", "friends", "eloquent"],
-    "authors": [{
-        "name": "Amr",
-        "email": "merodiro@gmail.com"
-    }],
+    "keywords": [
+        "laravel",
+        "friendships",
+        "friend-system",
+        "friends",
+        "eloquent"
+    ],
+    "authors": [
+        {
+            "name": "Amr",
+            "email": "merodiro@gmail.com"
+        }
+    ],
     "require": {
         "php": ">=7.0.0",
-        "illuminate/support": "^5.6"
+        "illuminate/support": "~5.5"
     },
     "autoload": {
         "psr-4": {
@@ -20,7 +28,7 @@
         "graham-campbell/testbench": "^5.0",
         "squizlabs/php_codesniffer": "^3.2",
         "mockery/mockery": "^1.0",
-        "codedungeon/phpunit-result-printer": "^0.19.10"
+        "codedungeon/phpunit-result-printer": "^0.23"
     },
     "autoload-dev": {
         "classmap": [
