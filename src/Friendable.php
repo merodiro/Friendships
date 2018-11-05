@@ -31,6 +31,7 @@ trait Friendable
             $this->friends()->attach($recipient);
 
             event('friendrequest.sent', [$this, $recipient]);
+
             return 'waiting';
         }
     }
@@ -44,6 +45,7 @@ trait Friendable
             $sender->friends()->updateExistingPivot($this, ['status' => 1]);
 
             event('friendrequest.accepted', [$this, $sender]);
+
             return 'friends';
         }
     }
@@ -57,6 +59,7 @@ trait Friendable
             $user->friends()->detach($this);
 
             event('friendship.deleted', [$this, $user]);
+
             return 'not_friends';
         }
     }

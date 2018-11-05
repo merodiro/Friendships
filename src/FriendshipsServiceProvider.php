@@ -22,7 +22,7 @@ class FriendshipsServiceProvider extends ServiceProvider
             'friendships'
         );
 
-        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
     }
 
     /**
