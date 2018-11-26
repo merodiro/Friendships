@@ -212,9 +212,8 @@ class FriendshipTest extends TestCase
     /** @test */
     public function it_returns_mutual_friends()
     {
-        $users = factory(User::class, 6)->create();
         // create users
-
+        $users = factory(User::class, 6)->create();
 
         // user one add friends
         $users[0]->addFriend($users[1]);

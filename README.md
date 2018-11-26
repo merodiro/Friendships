@@ -8,14 +8,14 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-
 This package gives users the ability to manage their friendships.
 
 ## Models can:
-- Send Friend Requests
-- Accept Friend Requests
-- Deny Friend Requests
-- Delete Friend
+
+-   Send Friend Requests
+-   Accept Friend Requests
+-   Deny Friend Requests
+-   Delete Friend
 
 ## Installation
 
@@ -36,11 +36,13 @@ Then include the service provider inside `config/app.php`.
 ```
 
 Finally, migrate the database
+
 ```
 php artisan migrate
 ```
 
 ## Setup a Model
+
 ```php
 use Merodiro\Friendships\Friendable;
 class User extends Model
@@ -51,85 +53,114 @@ class User extends Model
 ```
 
 ## How to use
+
 [Check the Test file to see the package in action](https://github.com/merodiro/Friendships/blob/master/tests/FriendshipsTest.php)
 
 #### Send a Friend Request
+
 ```php
 $user->addFriend($recipient);
 ```
 
 #### Accept a Friend Request
+
 ```php
 $user->acceptFriend($sender);
 ```
 
 #### Deny a Friend Request
+
 ```php
 $user->deleteFriend($sender);
 ```
 
 #### Remove Friend
+
 ```php
 $user->deleteFriend($friend);
 ```
 
 #### Mutual Friends
+
 ```php
 $user->mutualFriends($anotherUser);
 ```
 
+#### Mutual Friends Count
+
+```php
+$user->mutualFriendsCount($anotherUser);
+```
+
 #### check the current relationship between two users
+
 ```php
 $user->checkFriendship($anotherUser);
 ```
+
 it returns
 
-* `same_user` => if the `$user` is checking his own account
-* `friends` => if they are friends
-* `waiting` => if `$user` sent a request waiting for approval from `$anotherUser`
-* `pending` => if `$anotherUser` user sent a request waiting for approval from `$user`
-* `not_friends` => if they are not friends
+-   `same_user` => if the `$user` is checking his own account
+-   `friends` => if they are friends
+-   `waiting` => if `$user` sent a request waiting for approval from `$anotherUser`
+-   `pending` => if `$anotherUser` user sent a request waiting for approval from `$user`
+-   `not_friends` => if they are not friends
 
 #### Check if two users are friends
+
 ```php
 $user->isFriendsWith($anotherUser);
 ```
+
 it returns `true` if they are friends and `false` if they aren't
 
-
 ## Friends
-To get a collection of users use the following methods:
+
+the following ways to access friends are using Eloquent relationships
+so you can use the following:
+you can use any Eloquent method on them like `where()`, 'take()` and any other method
+
 #### Get Friends
+
 ```php
-$user->friends();
+$user->friends;
+$user->friends()->take(5)->get();
+User::with('friends')->get();
 ```
 
-#### Get a list of users that `$user` has received friend requests from
+#### Get access users that `$user` has received friend requests from
+
 ```php
-$user->friendRequestsReceived();
+$user->friendRequestsReceived;
+$user->friendRequestsReceived()->take(5)->get();
+User::with('friendRequestsReceived')->get();
 ```
 
-#### Get a list of users that `$user` has sent friend requests to
+#### Get access users that `$user` has sent friend requests to
+
 ```php
-$user->friendRequestsSent();
+$user->friendRequestsSent;
+$user->friendRequestsSent()->take(5)->get();
+User::with('friendRequestsSent')->get();
 ```
 
 ## Events
+
 This is the list of the events fired by default for each action
 
-|Event name            |Fired                            |
-|:--------------------:|:-------------------------------:|
-|friendrequest.sent    |When a friend request is sent    |
-|friendrequest.accepted|When a friend request is accepted|
-|friendship.deleted    |When a friend request is denied  |
-|friendship.deleted    |When a friendship is deleted     |
+|       Event name       |               Fired               |
+| :--------------------: | :-------------------------------: |
+|   friendrequest.sent   |   When a friend request is sent   |
+| friendrequest.accepted | When a friend request is accepted |
+|   friendship.deleted   |  When a friend request is denied  |
+|   friendship.deleted   |   When a friendship is deleted    |
 
 for more about how to use the events
 [Check this example](/Events.md)
 
 ## Testing
 
-``` bash
+```bash
 $ composer test
 ```
 
@@ -143,8 +174,8 @@ If you discover any security-related issues, please email merodiro@gmail.com ins
 
 ## Credits
 
-- [Amr A. Mohammed][link-author]
-- [All Contributors][link-contributors]
+-   [Amr A. Mohammed][link-author]
+-   [All Contributors][link-contributors]
 
 ## License
 
@@ -157,7 +188,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/merodiro/Friendships.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/merodiro/Friendships.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/merodiro/friendships.svg?style=flat-square
-
 [link-packagist]: https://packagist.org/packages/merodiro/friendships
 [link-travis]: https://travis-ci.org/merodiro/Friendships
 [link-appveyor]: https://ci.appveyor.com/project/merodiro/friendships
