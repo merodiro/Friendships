@@ -2,7 +2,6 @@
 
 use Merodiro\Friendships\FriendshipsServiceProvider;
 use GrahamCampbell\TestBench\AbstractPackageTestCase;
-use Orchestra\Database\ConsoleServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 abstract class TestCase extends AbstractPackageTestCase
@@ -24,7 +23,7 @@ abstract class TestCase extends AbstractPackageTestCase
     }
 
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
