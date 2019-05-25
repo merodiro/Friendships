@@ -67,10 +67,10 @@ class FriendshipTest extends TestCase
         $this->assertCount(1, $recipient->friendRequestsReceived);
 
         $recipient->acceptfriend($sender);
-        $this->assertEquals('friends', $recipient->checkFriendship($sender));
+        $this->assertEquals('FRIENDS', $recipient->checkFriendship($sender));
 
         $sender->deleteFriend($recipient);
-        $this->assertEquals('not_friends', $recipient->checkFriendship($sender));
+        $this->assertEquals('NOT_FRIENDS', $recipient->checkFriendship($sender));
     }
 
     /** @test */
@@ -81,8 +81,8 @@ class FriendshipTest extends TestCase
 
         $sender->addFriend($recipient);
 
-        $this->assertEquals('pending', $recipient->checkFriendship($sender));
-        $this->assertEquals('waiting', $sender->checkFriendship($recipient));
+        $this->assertEquals('PENDING', $recipient->checkFriendship($sender));
+        $this->assertEquals('WAITING', $sender->checkFriendship($recipient));
     }
 
     /** @test */
@@ -92,7 +92,7 @@ class FriendshipTest extends TestCase
 
         $user->addFriend($user);
 
-        $this->assertEquals('same_user', $user->checkFriendship($user));
+        $this->assertEquals('SAME_USER', $user->checkFriendship($user));
         $this->assertCount(0, $user->friendRequestsReceived);
         $this->assertCount(0, $user->friendRequestsSent);
     }
@@ -106,8 +106,8 @@ class FriendshipTest extends TestCase
         $sender->addFriend($recipient);
         $recipient->acceptFriend($sender);
 
-        $this->assertEquals('friends', $recipient->checkFriendship($sender));
-        $this->assertEquals('friends', $sender->checkFriendship($recipient));
+        $this->assertEquals('FRIENDS', $recipient->checkFriendship($sender));
+        $this->assertEquals('FRIENDS', $sender->checkFriendship($recipient));
 
         $this->assertTrue($sender->isFriendsWith($recipient));
         $this->assertTrue($recipient->isFriendsWith($sender));
@@ -134,7 +134,7 @@ class FriendshipTest extends TestCase
         $sender->addFriend($recipient);
         $sender->acceptFriend($recipient);
 
-        $this->assertEquals('pending', $recipient->checkFriendship($sender));
+        $this->assertEquals('PENDING', $recipient->checkFriendship($sender));
     }
 
     /** @test */

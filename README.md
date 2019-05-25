@@ -100,11 +100,11 @@ $user->checkFriendship($anotherUser);
 
 it returns
 
--   `same_user` => if the `$user` is checking his own account
--   `friends` => if they are friends
--   `waiting` => if `$user` sent a request waiting for approval from `$anotherUser`
--   `pending` => if `$anotherUser` user sent a request waiting for approval from `$user`
--   `not_friends` => if they are not friends
+-   `SAME_USER` => if the `$user` is checking his own account
+-   `FRIENDS` => if they are friends
+-   `WAITING` => if `$user` sent a request waiting for approval from `$anotherUser`
+-   `PENDING` => if `$anotherUser` user sent a request waiting for approval from `$user`
+-   `NOT_FRIENDS` => if they are not friends
 
 #### Check if two users are friends
 

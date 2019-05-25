@@ -7,19 +7,19 @@ trait Friendable
     public function checkFriendship($user)
     {
         if ($this->id == $user->id) {
-            return 'same_user';
+            return 'SAME_USER';
         }
 
         $friendship = Friendship::betweenUsers($this, $user);
 
         if ($friendship->count() == 0) {
-            return 'not_friends';
+            return 'NOT_FRIENDS';
         } elseif ($friendship->count() == 2) {
-            return 'friends';
+            return 'FRIENDS';
         } elseif ($friendship->first()->user_id == $this->id) {
-            return 'waiting';
+            return 'WAITING';
         } else {
-            return 'pending';
+            return 'PENDING';
         }
     }
 
@@ -27,7 +27,7 @@ trait Friendable
     {
         $friendshipStatus = $this->checkFriendship($recipient);
 
-        if ($friendshipStatus == 'not_friends') {
+        if ($friendshipStatus == 'NOT_FRIENDS') {
             $this->friends()->attach($recipient);
 
             event('friendrequest.sent', [$this, $recipient]);
@@ -40,7 +40,7 @@ trait Friendable
     {
         $friendshipStatus = $this->checkFriendship($sender);
 
-        if ($friendshipStatus == 'pending') {
+        if ($friendshipStatus == 'PENDING') {
             $this->friends()->attach($sender, ['status' => 1]);
             $sender->friends()->updateExistingPivot($this, ['status' => 1]);
 
@@ -54,14 +54,21 @@ trait Friendable
     {
         $friendshipStatus = $this->checkFriendship($user);
 
-        if ($friendshipStatus != 'not_friends') {
+        if ($friendshipStatus != 'NOT_FRIENDS') {
             $this->friends()->detach($user);
             $user->friends()->detach($this);
 
             event('friendship.deleted', [$this, $user]);
 
-            return 'not_friends';
+            return 'NOT_FRIENDS';
         }
+    }
+
+    public function ban($user)
+    {
+        $friendshipStatus = $this->checkFriendship($user);
+
+
     }
 
     public function friends()
