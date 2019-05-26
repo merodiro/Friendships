@@ -2,9 +2,14 @@
 
 namespace Merodiro\Friendships;
 
+use Merodiro\Friendships\Exceptions\AddFriendFailed;
+use Merodiro\Friendships\Exceptions\AcceptFriendFailed;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
+
 trait Friendable
 {
-    public function checkFriendship($user)
+    public function checkFriendship($user): string
     {
         if ($this->id == $user->id) {
             return 'SAME_USER';
@@ -23,20 +28,19 @@ trait Friendable
         }
     }
 
-    public function addFriend($recipient)
+    public function addFriend($recipient): void
     {
         $friendshipStatus = $this->checkFriendship($recipient);
 
-        if ($friendshipStatus == 'NOT_FRIENDS') {
+        if ($friendshipStatus === 'NOT_FRIENDS') {
             $this->friends()->attach($recipient);
-
             event('friendrequest.sent', [$this, $recipient]);
-
-            return 'waiting';
+        } else {
+            throw new AddFriendFailed($friendshipStatus);
         }
     }
 
-    public function acceptFriend($sender)
+    public function acceptFriend($sender): void
     {
         $friendshipStatus = $this->checkFriendship($sender);
 
@@ -45,12 +49,12 @@ trait Friendable
             $sender->friends()->updateExistingPivot($this, ['status' => 1]);
 
             event('friendrequest.accepted', [$this, $sender]);
-
-            return 'friends';
+        } else {
+            throw new AcceptFriendFailed($friendshipStatus);
         }
     }
 
-    public function deleteFriend($user)
+    public function deleteFriend($user): void
     {
         $friendshipStatus = $this->checkFriendship($user);
 
@@ -59,42 +63,33 @@ trait Friendable
             $user->friends()->detach($this);
 
             event('friendship.deleted', [$this, $user]);
-
-            return 'NOT_FRIENDS';
         }
     }
 
-    public function ban($user)
-    {
-        $friendshipStatus = $this->checkFriendship($user);
-
-
-    }
-
-    public function friends()
+    public function friends(): BelongsToMany
     {
         return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'user_id', 'friend_id')
             ->where('status', 1);
     }
 
-    public function friendRequestsReceived()
+    public function friendRequestsReceived(): BelongsToMany
     {
         return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'friend_id', 'user_id')
             ->where('status', 0);
     }
 
-    public function friendRequestsSent()
+    public function friendRequestsSent(): BelongsToMany
     {
         return $this->belongsToMany(config('friendships.user_model'), 'friendships', 'user_id', 'friend_id')
             ->where('status', 0);
     }
 
-    public function isFriendsWith($user)
+    public function isFriendsWith($user): bool
     {
         return $this->friends->contains($user);
     }
 
-    public function mutualFriendsCount($user)
+    public function mutualFriendsCount($user): int
     {
         $userFriends = $user->friends->pluck('id');
         $friends = $this->friends->pluck('id');
@@ -102,7 +97,7 @@ trait Friendable
         return $userFriends->intersect($friends)->count();
     }
 
-    public function mutualFriends($user)
+    public function mutualFriends($user): Collection
     {
         $userFriends = $user->friends->pluck('id');
         $friends = $this->friends->pluck('id');

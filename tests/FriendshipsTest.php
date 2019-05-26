@@ -20,17 +20,45 @@ class FriendshipTest extends TestCase
         $this->assertNotTrue($recipient->isFriendsWith($sender));
     }
 
-    /** @test */
-    public function user_can_not_send_a_friend_request_if_frienship_is_pending()
+    /**
+     * @test
+     * @expectedException \Merodiro\Friendships\Exceptions\AddFriendFailed
+     */
+    public function user_can_not_send_a_friend_request_if_frienship_is_waiting()
     {
         $sender = factory(User::class)->create();
         $recipient = factory(User::class)->create();
 
         $sender->addFriend($recipient);
         $sender->addFriend($recipient);
-        $sender->addFriend($recipient);
+    }
 
-        $this->assertCount(1, $recipient->friendRequestsReceived);
+    /**
+     * @test
+     * @expectedException \Merodiro\Friendships\Exceptions\AddFriendFailed
+     */
+    public function user_can_not_send_a_friend_request_if_frienship_is_pending()
+    {
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
+
+        $sender->addFriend($recipient);
+        $recipient->addFriend($sender);
+    }
+
+    /**
+     * @test
+     * @expectedException \Merodiro\Friendships\Exceptions\AddFriendFailed
+     */
+    public function user_can_not_send_a_friend_request_to_a_friend()
+    {
+        $sender = factory(User::class)->create();
+        $recipient = factory(User::class)->create();
+
+        $sender->addFriend($recipient);
+        $recipient->acceptFriend($sender);
+
+        $sender->addFriend($recipient);
     }
 
     /** @test */
@@ -85,7 +113,10 @@ class FriendshipTest extends TestCase
         $this->assertEquals('WAITING', $sender->checkFriendship($recipient));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \Merodiro\Friendships\Exceptions\AddFriendFailed
+     */
     public function user_can_not_send_a_friend_request_to_himself()
     {
         $user = factory(User::class)->create();
@@ -114,7 +145,7 @@ class FriendshipTest extends TestCase
     }
 
     /** @test */
-    public function user_has_not_friend_request_from_if_he_accepted_the_friend_request()
+    public function user_has_no_friend_request_from_if_he_accepted_the_friend_request()
     {
         $sender = factory(User::class)->create();
         $recipient = factory(User::class)->create();
@@ -126,15 +157,17 @@ class FriendshipTest extends TestCase
         $this->assertCount(0, $sender->friendRequestsSent);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \Merodiro\Friendships\Exceptions\AcceptFriendFailed
+     */
     public function user_cannot_accept_his_own_friend_request()
     {
         $sender = factory(User::class)->create();
         $recipient = factory(User::class)->create();
+
         $sender->addFriend($recipient);
         $sender->acceptFriend($recipient);
-
-        $this->assertEquals('PENDING', $recipient->checkFriendship($sender));
     }
 
     /** @test */
@@ -209,6 +242,7 @@ class FriendshipTest extends TestCase
         $this->assertCount(2, $recipient->friendRequestsReceived);
         $this->containsOnlyInstancesOf(\App\User::class, $recipient->friendRequestsReceived);
     }
+
     /** @test */
     public function it_returns_mutual_friends()
     {
@@ -226,8 +260,6 @@ class FriendshipTest extends TestCase
         $users[5]->acceptFriend($users[0]);
 
         // user two add friends
-        $users[1]->addFriend($users[0]);
-        $users[0]->acceptFriend($users[1]);
         $users[1]->addFriend($users[2]);
         $users[2]->acceptFriend($users[1]);
         $users[1]->addFriend($users[4]);
