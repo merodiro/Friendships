@@ -2,6 +2,7 @@ build: false
 clone_depth: 5
 
 environment:
+    PHP_CHOCO_VERSION: 7.3
     PHP_CACHE_DIR: C:\tools\php
 
 cache:
@@ -17,7 +18,7 @@ init:
 
 install:
     - IF EXIST %PHP_CACHE_DIR% (SET PHP=1)
-    - IF %PHP%==0 cinst php -y --params "/InstallDir:%PHP_CACHE_DIR%"
+    - IF %PHP%==0 cinst php -y --version %PHP_CHOCO_VERSION%  --params "/InstallDir:%PHP_CACHE_DIR%"
     - IF %PHP%==0 cinst composer -y --ia "/DEV=%PHP_CACHE_DIR%"
     - php -v
     - IF %PHP%==0 cd %PHP_CACHE_DIR%
